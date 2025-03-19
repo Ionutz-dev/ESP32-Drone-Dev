@@ -49,6 +49,9 @@ ESP32-Drone-Dev/
 ├── include/                          # Header files
 │   └── README.md
 │
+├── lib/                              # Libraries for sensors/modules
+│   └── README.md
+│
 ├── src/                              # Main application source code
 │   └── main.cpp                      # Main entry point
 │

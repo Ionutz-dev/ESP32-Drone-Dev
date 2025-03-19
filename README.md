@@ -12,7 +12,7 @@
   - **HMC5883L** Magnetometer (heading/direction)
   - **BMP280** Barometric pressure sensor (altitude)
   - **NEO-6M GPS Module** (positioning/navigation)
-- 📻 **Remote Control**: FlySky FS-i6X transmitter & FS-iA6B receiver (PWM/iBus)
+- 📻 **Remote Control**: FlySky FS-i6 transmitter & FS-iA6B receiver (PWM/iBus)
 - 🚁 **Motors & ESC**: 2212 920KV Brushless motors & 30A ESCs controlled via PWM signals.
 - 🧭 **PID Stabilization** (in-progress)
 - 🔄 **Sensor Fusion Algorithm** (Complementary filter, planned)
@@ -29,7 +29,7 @@
 | Propellers                          | 1045 (10") CW & CCW               |
 | Battery                             | LiPo 4S (14.8V, 1550mAh)          |
 | Power Distribution                  | Matek PDB BEC 5V/12V              |
-| Transmitter & Receiver              | FlySky FS-i6X + FS-iA6B           |
+| Transmitter & Receiver              | FlySky FS-i6 + FS-iA6B            |
 | Sensors                             | MPU6500, HMC5883L, BMP280, NEO-6M |
 
 ## 🚀 **Current Progress**
@@ -44,23 +44,28 @@
 ## 📂 **Project Structure**
 
 ```
-ESP32-Drone/
+ESP32-Drone-Dev/
 │
-├── lib/
-│   ├── MPU6500/                 # IMU sensor integration
-│   ├── HMC5883L/                # Magnetometer
-│   ├── BMP280/                  # Altitude sensor
-│   └── GPS-Neo6M/               # GPS positioning
+├── include/                          # Header files
+│   └── README.md
 │
-├── src/
-│   ├── main.cpp                 # Main entry point
-│   ├── motors.cpp/h             # ESC & Motor control logic
-│   ├── receiver.cpp/h           # FlySky receiver communication
-│   ├── stabilization.cpp/h      # PID control algorithms (in-progress)
-│   └── sensor_fusion.cpp/h      # Complementary filter (planned)
+├── src/                              # Main application source code
+│   └── main.cpp                      # Main entry point
 │
-├── platformio.ini               # PlatformIO project configuration
-└── README.md                    # Project documentation
+├── test/                             # General testing directory
+│   └── README.md
+│
+├── component_tests/                  # Individual hardware tests
+│   ├── test_bmp280.cpp               # BMP280 sensor tests
+│   ├── test_esc_motor.cpp            # ESC & Motor PWM tests
+│   ├── test_fs_ia6b.cpp              # FlySky FS-iA6B receiver tests
+│   ├── test_gps_neo6m.cpp            # GPS sensor tests
+│   ├── test_hmc5883l.cpp             # Magnetometer tests
+│   └── test_mpu6500.cpp              # IMU sensor tests
+│
+├── .gitignore                        # Git ignore rules
+├── platformio.ini                    # PlatformIO project configuration
+└── README.md                         # Project documentation
 ```
 
 ## 🔧 **How to Run & Test the Project**
@@ -71,8 +76,8 @@ ESP32-Drone/
 - Clone and open this project in VS Code.
 
 ```bash
-git clone <your-repo-link>
-cd ESP32-Drone
+git clone https://github.com/Ionutz-dev/ESP32-Drone-Dev.git
+cd ESP32-Drone-Dev
 ```
 
 ### **Build & Upload (PlatformIO)**

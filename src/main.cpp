@@ -6,28 +6,28 @@
 // #define TEST_BMP280
 // #define TEST_GPS_NEO6M
 // #define TEST_FS_IA6B
-#define TEST_ESC_MOTOR
+#define TEST_ESC_MOTORS
 
 #ifdef TEST_MPU6500
-#include "../tests/test_mpu6500.cpp"  // Load test file
+#include "../component_tests/test_mpu6500.cpp"  // Load test file
 #endif
 
 #ifdef TEST_HMC5883L
-#include "../tests/test_hmc5883l.cpp"
+#include "../component_tests/test_hmc5883l.cpp"
 #endif
 
 #ifdef TEST_BMP280
-#include "../tests/test_bmp280.cpp"
+#include "../component_tests/test_bmp280.cpp"
 #endif
 
 #ifdef TEST_GPS_NEO6M
-#include "../tests/test_gps_neo6m.cpp"
+#include "../component_tests/test_gps_neo6m.cpp"
 #endif
 
 #ifdef TEST_FS_IA6B
-#include "../tests/test_fs_ia6b.cpp"
+#include "../component_tests/test_fs_ia6b.cpp"
 #endif
 
-#ifdef TEST_ESC_MOTOR
-#include "../tests/test_esc_motor.cpp"
+#ifdef TEST_ESC_MOTORS
+#include "../component_tests/test_esc_motors.cpp"
 #endif

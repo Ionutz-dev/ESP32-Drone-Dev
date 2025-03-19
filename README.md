@@ -38,8 +38,8 @@
 - ✅ **Sensor Integration** _(IMU, GPS, Barometer, Magnetometer)_
 - ✅ **Motor & ESC Testing (PWM signals tested successfully)**
 - ⏳ **Remote control integration (in-progress)**
+- ⏳ **Sensor Fusion algorithm implementation (in-progress)**
 - ⏳ **PID Stabilization (next stage)**
-- ⏳ **Sensor Fusion algorithm implementation**
 
 ## 📂 **Project Structure**
 

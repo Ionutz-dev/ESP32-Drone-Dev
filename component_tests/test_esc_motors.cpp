@@ -150,31 +150,52 @@ void setup() {
   delay(3000); // Allow ESCs to arm (listen for beeps)
 }
 
+// void loop() {
+//   Serial.println("Ramping motors UP...");
+
+//   // Ramp up from 4200 to 5000 smoothly
+//   for (int duty = 3800; duty <= 5000; duty += 50) {
+//     for (int i = 0; i < 4; i++) {
+//       ledcWrite(pwmChannels[i], duty);
+//     }
+//     Serial.print("Duty: "); Serial.println(duty);
+//     delay(300); // Smooth ramp (adjust delay for speed)
+//   }
+
+//   delay(2000); // Hold at peak speed for 2 sec
+
+//   Serial.println("Ramping motors DOWN...");
+
+//   // Ramp down from 5000 to minDuty
+//   for (int duty = 5000; duty >= 3800; duty -= 50) {
+//     for (int i = 0; i < 4; i++) {
+//       ledcWrite(pwmChannels[i], duty);
+//     }
+//     Serial.print("Duty: "); Serial.println(duty);
+//     delay(300);
+//   }
+
+//   Serial.println("Motors stopped. Restarting in 3 sec...");
+//   delay(3000);
+// }
+
 void loop() {
-  Serial.println("Ramping motors UP...");
+  Serial.println("Testing individual motor thresholds...");
 
-  // Ramp up from 4200 to 5000 smoothly
-  for (int duty = 4200; duty <= 5000; duty += 50) {
-    for (int i = 0; i < 4; i++) {
-      ledcWrite(pwmChannels[i], duty);
+  for (int motor = 0; motor < 4; motor++) {
+    Serial.print("Testing Motor "); Serial.println(motor + 1);
+
+    for (int duty = 3400; duty <= 4200; duty += 50) {
+      ledcWrite(pwmChannels[motor], duty);
+      Serial.print("Duty: "); Serial.println(duty);
+      delay(1000);  // Let motor stabilize at this duty
     }
-    Serial.print("Duty: "); Serial.println(duty);
-    delay(300); // Smooth ramp (adjust delay for speed)
+
+    // Stop motor
+    ledcWrite(pwmChannels[motor], minDuty);
+    delay(3000);
   }
 
-  delay(2000); // Hold at peak speed for 2 sec
-
-  Serial.println("Ramping motors DOWN...");
-
-  // Ramp down from 5000 to minDuty
-  for (int duty = 5000; duty >= minDuty; duty -= 50) {
-    for (int i = 0; i < 4; i++) {
-      ledcWrite(pwmChannels[i], duty);
-    }
-    Serial.print("Duty: "); Serial.println(duty);
-    delay(300);
-  }
-
-  Serial.println("Motors stopped. Restarting in 3 sec...");
-  delay(3000);
+  Serial.println("Threshold test complete. Looping again...");
+  delay(5000);
 }

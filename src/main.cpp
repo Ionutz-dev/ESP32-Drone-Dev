@@ -1,33 +1,38 @@
 #include <Arduino.h>
+#include "sensor_fusion.h"
+#include "receiver.h"
+#include "pid.h"
+#include "motors.h"
 
-// Uncomment ONE of the following to select which sensor test to run:
-// #define TEST_MPU6500
-// #define TEST_HMC5883L
-// #define TEST_BMP280
-// #define TEST_GPS_NEO6M
-// #define TEST_FS_IA6B
-#define TEST_ESC_MOTORS
+Orientation orient;
+Commands cmd;
+PIDOutput pidOut;
 
-#ifdef TEST_MPU6500
-#include "../component_tests/test_mpu6500.cpp"  // Load test file
-#endif
+void setup() {
+	Serial.begin(115200);
+	delay(1000);
+	Serial.println("Drone Control System Starting");
 
-#ifdef TEST_HMC5883L
-#include "../component_tests/test_hmc5883l.cpp"
-#endif
+	initSensorFusion();   // Initialize MPU9250 + Compass
+	initReceiver();       // Initialize iBus RX (Serial2)
+	initPID();            // Initialize PID (tuning params inside pid.cpp)
+	initMotors();         // Setup PWM channels + arm ESCs
 
-#ifdef TEST_BMP280
-#include "../component_tests/test_bmp280.cpp"
-#endif
+	Serial.println("System Ready. Waiting for RC inputs...");
+}
 
-#ifdef TEST_GPS_NEO6M
-#include "../component_tests/test_gps_neo6m.cpp"
-#endif
+void loop() {
+	// 1. Update Orientation
+	orient = getOrientation();  // pitch, roll, yaw in degrees
 
-#ifdef TEST_FS_IA6B
-#include "../component_tests/test_fs_ia6b.cpp"
-#endif
+	// 2. Read RC Inputs
+	cmd = readReceiver();  // throttle [0-1000], pitch/roll/yaw [-500 to 500]
 
-#ifdef TEST_ESC_MOTORS
-#include "../component_tests/test_esc_motors.cpp"
-#endif
+	// 3. Compute PID Output
+	pidOut = computePID(orient.roll, orient.pitch, orient.yaw, cmd);  // PID [-500 to 500]
+
+	// 4. Motor Mixing & PWM Output
+	setMotorSpeeds(cmd.throttle, pidOut.roll, pidOut.pitch, pidOut.yaw);
+
+	delay(20); 
+}

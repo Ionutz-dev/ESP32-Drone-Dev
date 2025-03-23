@@ -1,5 +1,3 @@
-// FlySky FS-i6 + FS-iA6B receiver signal processing
-
 #ifndef RECEIVER_H
 #define RECEIVER_H
 

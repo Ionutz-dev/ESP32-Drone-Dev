@@ -1,5 +1,3 @@
-// Unified sensor initialization & data acquisition
-
 #ifndef SENSORS_H
 #define SENSORS_H
 

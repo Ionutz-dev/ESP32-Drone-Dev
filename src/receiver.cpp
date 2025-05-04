@@ -7,10 +7,10 @@ IBusBM ibus;
 #define IBUS_RX_PIN 16
 #define IBUS_SERIAL Serial2
 
-#define CH_ROLL     0
-#define CH_PITCH    1
+#define CH_ROLL 0
+#define CH_PITCH 1
 #define CH_THROTTLE 2
-#define CH_YAW      3
+#define CH_YAW 3
 
 void initReceiver() {
     IBUS_SERIAL.begin(115200, SERIAL_8N1, IBUS_RX_PIN, -1);
@@ -18,16 +18,15 @@ void initReceiver() {
 }
 
 Commands readReceiver() {
-    ibus.loop();  // Must call every loop
+    ibus.loop();  
 
     Commands cmd;
 
     int rawThrottle = ibus.readChannel(CH_THROTTLE);
-    int rawPitch    = ibus.readChannel(CH_PITCH);
-    int rawRoll     = ibus.readChannel(CH_ROLL);
-    int rawYaw      = ibus.readChannel(CH_YAW);
+    int rawPitch = ibus.readChannel(CH_PITCH);
+    int rawRoll = ibus.readChannel(CH_ROLL);
+    int rawYaw = ibus.readChannel(CH_YAW);
 
-    // Failsafe handling: Replace bad signals
     if (rawThrottle < 900) rawThrottle = 1000;
     if (rawPitch < 900) rawPitch = 1500;
     if (rawRoll < 900) rawRoll = 1500;

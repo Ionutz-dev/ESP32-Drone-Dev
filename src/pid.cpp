@@ -29,11 +29,11 @@ void initPID() {
 PIDOutput computePID(float currentRoll, float currentPitch, float currentYaw, Commands cmd) {
     unsigned long now = millis();
     float dt = (now - lastTime) / 1000.0f;  // seconds
-    if (dt <= 0.0f) dt = 0.01f;  // Prevent division by zero
+    if (dt <= 0.0f) dt = 0.01f;
     lastTime = now;
 
-    // Setpoints from RC (mapped to -500..500)
-    float targetRoll = cmd.roll * 0.1f;    // Scale down for stability
+    // RC setpoints (-50 to 50 degrees)
+    float targetRoll = cmd.roll * 0.1f;
     float targetPitch = cmd.pitch * 0.1f;
     float targetYaw = cmd.yaw * 0.1f;
 
@@ -41,6 +41,12 @@ PIDOutput computePID(float currentRoll, float currentPitch, float currentYaw, Co
     float errorRoll = targetRoll - currentRoll;
     float errorPitch = targetPitch - currentPitch;
     float errorYaw = targetYaw - currentYaw;
+
+    // Reset PID state if throttle low
+    if (cmd.throttle < 50) {
+        integralRoll = integralPitch = integralYaw = 0;
+        prevErrorRoll = prevErrorPitch = prevErrorYaw = 0;
+    }
 
     // Integrals
     integralRoll += errorRoll * dt;
@@ -52,12 +58,17 @@ PIDOutput computePID(float currentRoll, float currentPitch, float currentYaw, Co
     float derivativePitch = (errorPitch - prevErrorPitch) / dt;
     float derivativeYaw = (errorYaw - prevErrorYaw) / dt;
 
-    // PID calculations
+    // PID outputs
     float outputRoll = Kp_roll * errorRoll + Ki_roll * integralRoll + Kd_roll * derivativeRoll;
     float outputPitch = Kp_pitch * errorPitch + Ki_pitch * integralPitch + Kd_pitch * derivativePitch;
     float outputYaw = Kp_yaw * errorYaw + Ki_yaw * integralYaw + Kd_yaw * derivativeYaw;
 
-    // Save errors for next cycle
+    // Clamp PID outputs
+    outputRoll = constrain(outputRoll, -500, 500);
+    outputPitch = constrain(outputPitch, -500, 500);
+    outputYaw = constrain(outputYaw, -500, 500);
+
+    // Store for next loop
     prevErrorRoll = errorRoll;
     prevErrorPitch = errorPitch;
     prevErrorYaw = errorYaw;
@@ -69,3 +80,5 @@ PIDOutput computePID(float currentRoll, float currentPitch, float currentYaw, Co
 
     return pid;
 }
+
+

@@ -7,7 +7,7 @@ void setup() {
 	Serial.begin(115200);
 	Wire.begin();
 	compass.init();
-	Serial.println("🧭 QMC5883L Calibration Mode");
+	Serial.println("QMC5883L Calibration Mode");
 }
 
 void loop() {

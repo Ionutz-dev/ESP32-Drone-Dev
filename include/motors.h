@@ -1,5 +1,3 @@
-// ESC & motor PWM control functions
-
 #ifndef MOTORS_H
 #define MOTORS_H
 

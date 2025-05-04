@@ -18,7 +18,6 @@ void initSensorFusion() {
     imuSensor.beginAccel();
     imuSensor.beginGyro();
 
-    // Initialize QMC5883L Compass
     compass.init();
     compass.setCalibrationOffsets(-281, -52, 149);
 

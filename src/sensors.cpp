@@ -1,7 +1,7 @@
 #include "sensors.h"
 
 void initSensors() {
-    // TODO: Initialize all sensors (MPU6500, HMC5883L, BMP280, GPS)
+    // TODO: Initialize all sensors
 }
 
 SensorData readAllSensors() {
